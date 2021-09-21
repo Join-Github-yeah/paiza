@@ -1,0 +1,48 @@
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+        /*
+         * タクシーの種類数 N
+         * 目的地までの距離 X 
+         * 初乗り距離 a
+         * 初乗り運賃 b
+         * 加算距離 c
+         * 加算運賃 d
+         * 期待値
+         * タクシーで X メートル移動した際の最安値と最高値を出力する
+        */
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int X = sc.nextInt();
+        int[] arr = new int[N];
+        
+        for(int i = 0; i < N; i++){
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+            int d = sc.nextInt();
+            
+            if(a > X){
+                arr[i] = b;
+                continue;
+            }
+            else{
+                while(true){
+                    a += c;
+                    b += d;
+                    if(a > X){
+                        arr[i] = b;
+                        break;
+                    }
+                }
+            }
+        }
+        Arrays.sort(arr);
+        // 最安値
+        System.out.print(arr[0] + " ");
+        // 最高値
+        System.out.print(arr[arr.length - 1]);
+    }
+}

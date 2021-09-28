@@ -1,0 +1,88 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // 歌唱者の人数
+        int n = sc.nextInt();
+        // 課題曲の長さ
+        int m = sc.nextInt();
+        // "小節の正しい音程"と"歌唱者音程"の差分
+        int intervalDiff = 0;
+        // 課題曲の音程を格納する配列
+        int[] arrInterval = new int[m];
+        //  歌唱者の得点を格納する配列
+        int[] result = new int[n];
+        
+        // 課題曲の音程を配列に格納する
+        for(int i = 0; i < m; i++){
+            arrInterval[i] = sc.nextInt();
+        }
+        
+        // 歌唱者の得点を格納する
+        for(int i = 0; i < n; i++){
+            
+            // 採点方法は 100点 からの減点方式
+            int sum = 100;
+            
+            for(int j = 0; j < m; j++){
+            
+                // 小節の正しい音程
+                int a = arrInterval[j];
+                // 歌唱者の音程
+                int b = sc.nextInt();
+                
+                // "小節の正しい音程" と "歌唱者音程" の差分 
+                int c = b - a;
+                if(c < 0){
+                    intervalDiff = -c;
+                }else{
+                    intervalDiff =  c;
+                }
+                
+                /*
+                 判定条件
+                  ・誤差 5 Hz 以内なら減点しない
+                  ・上記に当てはまらず、誤差 10 Hz 以内なら 1 点減点
+                  ・上記に当てはまらず、誤差 20 Hz 以内なら 2 点減点
+                  ・上記に当てはまらず、誤差 30 Hz 以内なら 3 点減点
+                  ・上記に当てはまらない場合、5 点減点
+                 */
+                if(intervalDiff <= 5){
+                    continue;
+                }
+                else if(intervalDiff <= 10){
+                    sum -= 1;
+                }
+                else if(intervalDiff <= 20){
+                    sum -= 2;   
+                }
+                else if(intervalDiff <= 30){
+                    sum -= 3;
+                }
+                else{
+                    sum -= 5;
+                }
+            
+            }
+            // 減点方式で 0点を下回らせないための処理
+            if(sum < 0){
+                result[i] = 0;;   
+            }else{
+                result[i] = sum;
+            }
+            
+        }
+        
+        // n 人のうちの最高得点を出力する
+        int highestScore = result[0];
+        for(int i = 1; i < n; i++){
+            if(highestScore < result[i]){
+                highestScore = result[i];
+            }
+        }
+        System.out.println(highestScore);
+        
+    }
+}
